@@ -186,219 +186,10 @@ use PDO;
 
 
 
-     public static function SelectAllFromiOSApp()
-     {
-         $appDBPdo = self::CreateDB();
-         if($appDBPdo ==null){
-             return;
-         }
 
-         //
-         //
-         //
 
-         //SQL準備
-         $stmt = $appDBPdo->prepare("SELECT * FROM iOSApp ORDER BY id DESC");
 
-         $res = $stmt->execute();
 
-
-
-
-
-         $validatedDataArray = array();
-
-         if( $res ) {
-             $dataArray = $stmt->fetchAll();
-
-
-
-             foreach ($dataArray as $data) {
-                 //データ整理
-                 $appInfo = new FileInfo();
-
-
-                 $appInfo->dataID = $data["id"];
-                 $appInfo->savedirname = $data["savedirname"];
-                 $appInfo->memo1 = $data["memo1"];
-                 $appInfo->createtime = $data["createtime"];
-
-                 $appInfoJSONDic = json_decode($data["appinfo"], true);
-
-                 $appInfoJSON = new AppInfoJSON();
-                 $appInfoJSON->appid = $appInfoJSONDic["appid"];
-                 $appInfoJSON->bundleName = $appInfoJSONDic["bundleName"];
-                 $appInfoJSON->xcode = $appInfoJSONDic["xcode"];
-                 $appInfoJSON->sdkBuild = $appInfoJSONDic["sdkBuild"];
-                 $appInfoJSON->minosverversion = $appInfoJSONDic["minosverversion"];
-                 $appInfoJSON->appversion = $appInfoJSONDic["appversion"];
-
-                 if(array_key_exists("iosProvisioningUDID",$appInfoJSONDic)){
-                     $appInfoJSON->iosProvisioningUDID = $appInfoJSONDic["iosProvisioningUDID"];
-                 }
-
-                 $appInfo->appInfoJSON = $appInfoJSON;
-
-
-
-                 //配列へ追加
-                 $validatedDataArray[]=$appInfo;
-             }
-         }
-
-         $appDBPdo = null;
-
-
-         return $validatedDataArray;
-
-     }
-
-
-
-
-     public static function SelectAllFromAndroidApp()
-     {
-         $appDBPdo = self::CreateDB();
-         if($appDBPdo ==null){
-             return;
-         }
-
-         //
-         //
-         //
-
-         //SQL準備
-         $stmt = $appDBPdo->prepare("SELECT * FROM androidApp ORDER BY id DESC");
-
-
-         $res = $stmt->execute();
-
-
-
-         $validatedDataArray = array();
-
-         if( $res ) {
-             $dataArray = $stmt->fetchAll();
-
-
-             foreach ($dataArray as $data) {
-
-                 $appInfo = new FileInfo();
-                 //データ整理
-                 $appInfo->dataID = $data["id"];
-                 $appInfo->savedirname = $data["savedirname"];
-                 $appInfo->memo1 = $data["memo1"];
-                 $appInfo->createtime = $data["createtime"];
-
-                 $appInfoJSONDic = json_decode($data["appinfo"], true);
-
-                 $appInfoJSON = new AppInfoJSON();
-                 $appInfoJSON->appid = $appInfoJSONDic["appid"];
-                 $appInfoJSON->bundleName = $appInfoJSONDic["bundleName"];
-                 $appInfoJSON->xcode = $appInfoJSONDic["xcode"];
-                 $appInfoJSON->androidMinSDK = $appInfoJSONDic["androidMinSDK"];
-                 $appInfoJSON->androidTargetSDK = $appInfoJSONDic["androidTargetSDK"];
-                 $appInfoJSON->appversion = $appInfoJSONDic["appversion"];
-
-                 if(array_key_exists("iosProvisioningUDID",$appInfoJSONDic)){
-                     $appInfoJSON->iosProvisioningUDID = $appInfoJSONDic["iosProvisioningUDID"];
-                 }
-
-                 $appInfo->appInfoJSON = $appInfoJSON;
-
-
-                 //配列へ追加
-                 $validatedDataArray[]=$appInfo;
-             }
-         }
-         $appDBPdo = null;
-
-
-         return $validatedDataArray;
-
-     }
-
-
-     public static function InsertToDistribution(GroupInfo $distributionInfo)
-     {
-         $appDBPdo = self::CreateDB();
-         if($appDBPdo ==null){
-             return;
-         }
-
-         //
-         //
-         //
-
-
-
-         //SQL準備
-         $stmt = $appDBPdo->prepare("INSERT INTO distributionlist(	iosappid, androidappid, detailmemo,isactive) VALUES (:iosappid, :androidappid,:detailmemo,:isactive)");
-
-
-         $stmt->bindValue( ':iosappid', $distributionInfo->iosappid, SQLITE3_INTEGER);
-         $stmt->bindValue( ':androidappid', $distributionInfo->androidappid, SQLITE3_INTEGER);
-         $stmt->bindValue( ':detailmemo', $distributionInfo->detailmemo, SQLITE3_TEXT);
-         $stmt->bindValue( ':isactive', $distributionInfo->isActive, SQLITE3_INTEGER);
-
-         $res = $stmt->execute();//実行
-
-         $insertDataID=-999;
-
-         if($res === true){
-             $insertDataID = (int) $appDBPdo->lastInsertId();
-             $appDBPdo = null;
-         }else{
-             $appDBPdo = null;
-         }
-
-         return $insertDataID;
-
-     }
-
-     public static function SelectFromDistribution($dataID)
-     {
-         $appDBPdo = self::CreateDB();
-         if($appDBPdo ==null){
-             return;
-         }
-
-         //
-         //
-         //
-
-         //SQL準備
-         $stmt = $appDBPdo->prepare("SELECT * FROM distributionlist WHERE id = :dataID");
-
-
-         $stmt->bindValue( ':dataID', $dataID, SQLITE3_INTEGER);
-
-         $res = $stmt->execute();
-
-
-
-         $distributionInfo = new GroupInfo();
-
-         if( $res ) {
-             $data = $stmt->fetch();
-
-
-             //データ整理
-             $distributionInfo->dataid = $data["id"];
-             $distributionInfo->iosappid = $data["iosappid"];
-             $distributionInfo->androidappid = $data["androidappid"];
-             $distributionInfo->detailmemo = $data["detailmemo"];
-             $distributionInfo->isActive = $data["isactive"];
-             $distributionInfo->createtime = $data["createtime"];
-
-         }
-
-         $appDBPdo = null;
-
-
-         return $distributionInfo;
-
-     }
 
 
      public static function SelectAllGroupInfo()
@@ -481,6 +272,47 @@ use PDO;
                  $groupInfo->groupname = $data["groupname"];
                  $groupInfo->memo1 = $data["memo1"];
                  $groupInfo->createtime = $data["createtime"];
+
+
+         }
+         $appDBPdo = null;
+
+
+         return $groupInfo;
+
+     }
+
+     public static function SelectGroupInfoByPublicID($publicGroupID)
+     {
+         $appDBPdo = self::CreateDB();
+         if($appDBPdo ==null){
+             return;
+         }
+
+         //
+         //
+         //
+
+         //SQL準備
+         $stmt = $appDBPdo->prepare("SELECT * FROM grouplist WHERE publicid = :publicid  ORDER BY id DESC");
+
+         $stmt->bindValue( ':publicid', $publicGroupID, SQLITE3_TEXT);
+
+
+         $res = $stmt->execute();
+
+
+
+         $groupInfo = new GroupInfo();
+         if( $res ) {
+             $data = $stmt->fetch();
+
+             //データ整理
+             $groupInfo->id = $data["id"];
+             $groupInfo->publicid = $data["publicid"];
+             $groupInfo->groupname = $data["groupname"];
+             $groupInfo->memo1 = $data["memo1"];
+             $groupInfo->createtime = $data["createtime"];
 
 
          }
@@ -593,9 +425,7 @@ use PDO;
 
      }
 
-
-
-     public static function SelectActiveOnlyFromDitribution()
+     public static function SelectFileInfoPinnedOnGroup($groupID)
      {
          $appDBPdo = self::CreateDB();
          if($appDBPdo ==null){
@@ -607,8 +437,9 @@ use PDO;
          //
 
          //SQL準備
-         $stmt = $appDBPdo->prepare("SELECT * FROM distributionlist WHERE isactive=1 ORDER BY id DESC");
+         $stmt = $appDBPdo->prepare("SELECT * FROM filelist WHERE groupid = :groupID AND ispinned = 1 AND isactive = 1 ORDER BY id DESC");
 
+         $stmt->bindValue( ':groupID', $groupID, SQLITE3_INTEGER);
 
          $res = $stmt->execute();
 
@@ -622,20 +453,21 @@ use PDO;
 
              foreach ($dataArray as $data) {
 
-                 $distributionInfo = new GroupInfo();
+                 $fileInfo = new FileInfo();
 
                  //データ整理
-                 $distributionInfo->dataid = $data["id"];
-                 $distributionInfo->iosappid = $data["iosappid"];
-                 $distributionInfo->androidappid = $data["androidappid"];
-                 $distributionInfo->detailmemo = $data["detailmemo"];
-                 $distributionInfo->isActive = $data["isactive"];
-                 $distributionInfo->createtime = $data["createtime"];
-
+                 $fileInfo->dataID = $data["id"];
+                 $fileInfo->savedirname = $data["savedirname"];
+                 $fileInfo->savefilename = $data["savefilename"];
+                 $fileInfo->groupID = $data["groupid"];
+                 $fileInfo->ispinned = $data["ispinned"];
+                 $fileInfo->isactive = $data["isactive"];
+                 $fileInfo->memo1 = $data["memo1"];
+                 $fileInfo->createtime = $data["createtime"];
 
 
                  //配列へ追加
-                 $validatedDataArray[]=$distributionInfo;
+                 $validatedDataArray[]=$fileInfo;
              }
          }
          $appDBPdo = null;
@@ -644,6 +476,113 @@ use PDO;
          return $validatedDataArray;
 
      }
+
+     public static function SelectFileInfoActiveOnlyOnGroup($groupID)
+     {
+         $appDBPdo = self::CreateDB();
+         if($appDBPdo ==null){
+             return;
+         }
+
+         //
+         //
+         //
+
+         //SQL準備
+         $stmt = $appDBPdo->prepare("SELECT * FROM filelist WHERE groupid = :groupID AND isactive = 1 ORDER BY id DESC");
+
+         $stmt->bindValue( ':groupID', $groupID, SQLITE3_INTEGER);
+
+         $res = $stmt->execute();
+
+
+
+         $validatedDataArray = array();
+
+         if( $res ) {
+             $dataArray = $stmt->fetchAll();
+
+
+             foreach ($dataArray as $data) {
+
+                 $fileInfo = new FileInfo();
+
+                 //データ整理
+                 $fileInfo->dataID = $data["id"];
+                 $fileInfo->savedirname = $data["savedirname"];
+                 $fileInfo->savefilename = $data["savefilename"];
+                 $fileInfo->groupID = $data["groupid"];
+                 $fileInfo->ispinned = $data["ispinned"];
+                 $fileInfo->isactive = $data["isactive"];
+                 $fileInfo->memo1 = $data["memo1"];
+                 $fileInfo->createtime = $data["createtime"];
+
+
+                 //配列へ追加
+                 $validatedDataArray[]=$fileInfo;
+             }
+         }
+         $appDBPdo = null;
+
+
+         return $validatedDataArray;
+
+     }
+
+     public static function SelectOneFileInfoActiveOnlyOnGroup($groupID,$dataID)
+     {
+         $appDBPdo = self::CreateDB();
+         if($appDBPdo ==null){
+             return;
+         }
+
+         //
+         //
+         //
+
+         //SQL準備
+         $stmt = $appDBPdo->prepare("SELECT * FROM filelist WHERE groupid = :groupID AND id = :dataid  AND isactive = 1 ORDER BY id DESC");
+
+         $stmt->bindValue( ':groupID', $groupID, SQLITE3_INTEGER);
+         $stmt->bindValue( ':dataid', $dataID, SQLITE3_INTEGER);
+
+         $res = $stmt->execute();
+
+
+
+         $validatedDataArray = array();
+
+         if( $res ) {
+             $dataArray = $stmt->fetchAll();
+
+
+             foreach ($dataArray as $data) {
+
+                 $fileInfo = new FileInfo();
+
+                 //データ整理
+                 $fileInfo->dataID = $data["id"];
+                 $fileInfo->savedirname = $data["savedirname"];
+                 $fileInfo->savefilename = $data["savefilename"];
+                 $fileInfo->groupID = $data["groupid"];
+                 $fileInfo->ispinned = $data["ispinned"];
+                 $fileInfo->isactive = $data["isactive"];
+                 $fileInfo->memo1 = $data["memo1"];
+                 $fileInfo->createtime = $data["createtime"];
+
+
+                 //配列へ追加
+                 $validatedDataArray[]=$fileInfo;
+             }
+         }
+         $appDBPdo = null;
+
+
+         return $validatedDataArray;
+
+     }
+
+
 
 
      public static function UpdatePinActive($dataID,$validatedGroupID,$setActive)

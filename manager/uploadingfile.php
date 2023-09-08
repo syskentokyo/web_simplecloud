@@ -36,8 +36,8 @@ $validatedMemo1 = htmlspecialchars($_POST['inputMemo1'], ENT_QUOTES, 'UTF-8');
 $validatedGroupID = htmlspecialchars($_POST['selectGroup'], ENT_QUOTES, 'UTF-8');
 $uploadtedFile = $_FILES['uploadfile'];
 $uploadtedFileName =htmlspecialchars($_FILES['uploadfile']['name'], ENT_QUOTES, 'UTF-8');
-
-
+$uploadFileExtension = pathinfo($uploadtedFileName, PATHINFO_EXTENSION);
+$saveFileName = "main".".".$uploadFileExtension;
 
 
 
@@ -56,7 +56,7 @@ mkdir($saveDirPath, 0766);
 // ファイル保存
 //
 $saveFileBaseFilePath= $saveDirPath."/";
-$saveAppFilePath= $saveFileBaseFilePath .$uploadtedFileName;
+$saveAppFilePath= $saveFileBaseFilePath .$saveFileName;
 
 
 
@@ -73,7 +73,7 @@ if($saveAppFilePath!=="") {
 //
 // DBへ保存
 //
-$insertLastID = CloudDBManager::InsertFileList($validatedGroupID,$saveDirName,$uploadtedFileName,$validatedMemo1);
+$insertLastID = CloudDBManager::InsertFileList($validatedGroupID,$saveDirName,$saveFileName,$validatedMemo1);
 
 
 

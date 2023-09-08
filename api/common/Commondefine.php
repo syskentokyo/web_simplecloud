@@ -18,19 +18,7 @@ const USER_DIR_NAME = "api";
 
 const SAVEDATA_DIR_NAME = "savedata";
 
-const DETAIL_APP_DIR = USER_DIR_NAME."/detailapp.php";
 
-const APP_LIST_DIR = USER_DIR_NAME."/index.php";
-
-const DETAIL_DISTRIBUTION_DIR = USER_DIR_NAME."/detaildistribution.php";
-
-const APP_IOS_INSTALL_PLIST_FILEPATH = USER_DIR_NAME."/iosinstallplist.php";
-
-const APP_IOS_INSTALL_PLIST_BASE_XML_FILEPATH = USER_DIR_NAME."/baseplist.xml";
-
-const IOS_ICON_57_PATH = SAVEDATA_DIR_NAME."/icon/icon57.png";
-
-const IOS_ICON_512_PATH = SAVEDATA_DIR_NAME."/icon/icon512.png";
 
 const UPLOAD_FILE_DIR = MANAGER_DIR_NAME."/uploadfile.php";
 
