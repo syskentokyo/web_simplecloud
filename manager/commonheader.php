@@ -9,6 +9,13 @@ require_once('../api/common/commonrequireall.php');
         <a class="navbar-brand" href="<?php echo "../".MANAGE_DISTRIBUTION_DIR."";  ?>" >Top</a>
 
 
+        <ul class="navbar-nav"  style="width: 30%;">
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo "../".DOCS_DIR."";  ?>" >Document</a>
+            </li>
+        </ul>
+
+
         <ul class="navbar-nav"  style="width: 40%;">
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo "../".GROUP_LIST_DIR."";  ?>" >Group List</a>

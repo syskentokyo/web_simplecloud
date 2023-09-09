@@ -26,11 +26,19 @@ const CREATE_GROUP_DIR = MANAGER_DIR_NAME."/creategroup.php";
 
 const GROUP_LIST_DIR = MANAGER_DIR_NAME."/grouplist.php";
 
+const DOCS_DIR = MANAGER_DIR_NAME."/apidoc.php";
+
 const MANAGE_DISTRIBUTION_DIR = MANAGER_DIR_NAME."/index.php";
 
 const CREATE_DISTRIBUTION_DIR = MANAGER_DIR_NAME."/createdistribution.php";
+
+
 
 const FILE_SAVEDIR = USER_DIR_NAME."/".SAVEDATA_DIR_NAME."/publicfile/";
 const FILE_SAVEDIR_PATH = "../".FILE_SAVEDIR;
 const DB_FILE_PATH = "../".SAVEDATA_DIR_NAME."/masterdb/master.sqlite3";
 
+
+const FILE_DOWNLOAD_API_PATH = USER_DIR_NAME."/"."filedownload.php";
+
+const FILE_URL_API_PATH = USER_DIR_NAME."/"."fileurl.php";
