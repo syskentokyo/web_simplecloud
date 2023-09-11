@@ -23,6 +23,7 @@ for($i=1;$i < (count($dirArray)-2);$i++){
 
 $fileDownloadAPIURL = $appBaseURL ."/".FILE_DOWNLOAD_API_PATH;
 $fileURLAPIURL = $appBaseURL ."/".FILE_URL_API_PATH;
+$fileUploadAPIURL = $appBaseURL ."/".FILE_UPLOAD_API_PATH;
 
 
 ?>
@@ -194,6 +195,90 @@ require_once('./commonheader.php');
                     <code>
                         {
                         "fileURL": "http://localhost:8888/api/savedata/publicfile/public20230908202133/main.log"
+                        }
+
+                    </code>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="mt-4 row g-2 border">
+
+            <h3>File Upload</h3>
+
+            <div class="col-12">
+                <label>URL</label>
+                <div class="input-group">
+                    <?php echo $fileUploadAPIURL; ?>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label>概要</label>
+                <div class="input-group">
+                    グループを指定してファイルをアップロードできます
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label>返却値</label>
+                <div class="input-group">
+                    JSON形式のURL文字列
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <label>METHOD</label>
+                <div class="input-group">
+                    POST
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label>POST Param</label>
+                <div class="input-group">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            publicgroupid
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">必須</li>
+                                <li class="list-group-item">文字列型</li>
+                                <li class="list-group-item">取得したファイルのグループの公開ID</li>
+                                <li class="list-group-item">グループを指定します</li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item">
+                            uploadfile
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">必須</li>
+                                <li class="list-group-item">バイナリ型</li>
+                                <li class="list-group-item">ファイルバイナリ</li>
+                                <li class="list-group-item">ファイルデータです。</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <label>URLサンプル</label>
+                <div class="input-group">
+                    http://localhost:8888/api/fileupload.php
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label>返却値サンプル</label>
+                <div class="input-group">
+                    <code>
+                        {
+                        "publicgroupid": "1be9dbf4e8b841a29e017649d063e9ab"
+                        ,"dataid": 4
                         }
 
                     </code>

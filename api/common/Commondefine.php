@@ -42,3 +42,5 @@ const DB_FILE_PATH = "../".SAVEDATA_DIR_NAME."/masterdb/master.sqlite3";
 const FILE_DOWNLOAD_API_PATH = USER_DIR_NAME."/"."filedownload.php";
 
 const FILE_URL_API_PATH = USER_DIR_NAME."/"."fileurl.php";
+
+const FILE_UPLOAD_API_PATH = USER_DIR_NAME."/"."fileupload.php";

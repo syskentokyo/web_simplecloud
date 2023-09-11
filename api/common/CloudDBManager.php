@@ -140,6 +140,46 @@ use PDO;
 
      }
 
+     public static function InsertFileListWithActive($groupID,$saveDirName,$saveFileName,$memo1)
+     {
+         $appDBPdo = self::CreateDB();
+         if($appDBPdo ==null){
+             return;
+         }
+
+         //
+         //
+         //
+
+
+
+         //SQL準備
+         $stmt = $appDBPdo->prepare("INSERT INTO filelist(	savedirname, savefilename,groupid,memo1,ispinned,isactive) VALUES (:savedirname, :savefilename,:groupid,:memo1,:ispinned,:isactive)");
+
+
+         $stmt->bindValue( ':savedirname', $saveDirName, SQLITE3_TEXT);
+         $stmt->bindValue( ':savefilename', $saveFileName, SQLITE3_TEXT);
+         $stmt->bindValue( ':groupid', $groupID, SQLITE3_INTEGER);
+         $stmt->bindValue( ':memo1', $memo1, SQLITE3_TEXT);
+         $stmt->bindValue( ':ispinned', 0, SQLITE3_INTEGER);
+         $stmt->bindValue( ':isactive', 1, SQLITE3_INTEGER);
+
+         $res = $stmt->execute();//実行
+
+         $insertDataID=-999;
+
+         if($res === true){
+             $insertDataID = (int) $appDBPdo->lastInsertId();
+             $appDBPdo = null;
+         }else{
+             $appDBPdo = null;
+         }
+
+         return $insertDataID;
+
+     }
+
+
 
      public static function SelectFromGroupList($groupID)
      {
@@ -184,8 +224,81 @@ use PDO;
 
      }
 
+     public static function SelectPublicGroupIDFromGroupList($publicGroupID)
+     {
+         $appDBPdo = self::CreateDB();
+         if($appDBPdo ==null){
+             return;
+         }
+
+         //
+         //
+         //
+
+         //SQL準備
+         $stmt = $appDBPdo->prepare("SELECT * FROM grouplist WHERE publicid = :publicid");
 
 
+         $stmt->bindValue( ':publicid', $publicGroupID, SQLITE3_TEXT);
+
+         $res = $stmt->execute();
+
+
+
+         $groupInfo = new GroupInfo();
+
+         if( $res ) {
+             $data = $stmt->fetch();
+
+
+             //データ整理
+             $groupInfo->id = $data["id"];
+             $groupInfo->publicid = $data["publicid"];
+             $groupInfo->groupname = $data["groupname"];
+             $groupInfo->memo1 = $data["memo1"];
+             $groupInfo->createtime = $data["createtime"];
+
+         }
+
+         $appDBPdo = null;
+
+
+         return $groupInfo;
+
+     }
+
+
+     public static function IsExitGroupOnGroupList($publicGroupID)
+     {
+         $appDBPdo = self::CreateDB();
+         if($appDBPdo ==null){
+             return false;
+         }
+
+         //
+         //
+         //
+
+         //SQL準備
+         $stmt = $appDBPdo->prepare("SELECT * FROM grouplist WHERE publicid = :publicid");
+
+
+         $stmt->bindValue( ':publicid', $publicGroupID, SQLITE3_TEXT);
+
+         $res = $stmt->execute();
+
+
+            $isExist= false;
+         if( $res ) {
+             $isExist= true;
+         }
+
+         $appDBPdo = null;
+
+
+         return $isExist;
+
+     }
 
 
 

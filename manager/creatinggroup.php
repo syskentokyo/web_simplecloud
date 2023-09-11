@@ -27,7 +27,6 @@ $validatorGet->rule('required', ['inputGroup']);
 if($validatorGet->validate()) {
 
 } else {
-    echo "aaa";
     exit();
 }
 

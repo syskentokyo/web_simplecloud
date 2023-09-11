@@ -1,0 +1,4 @@
+AddType application/octet-stream .ipa
+<Files *.ipa>
+  Header set Content-Disposition attachment
+</Files>

@@ -28,7 +28,8 @@
 
 /.idea/
 
-/api/savedata/*
+/api/savedata/masterdb/master.sqlite3
+/api/savedata/publicfile/public*
 
 !/api/savedata/icon/*
 !/api/savedata/.gitkeep

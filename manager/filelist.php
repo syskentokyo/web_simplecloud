@@ -169,12 +169,11 @@ require_once('./commonheader.php');
 
                 <div class="col-12">
                     <label>File Path</label>
-                    <div class="input-group">
-                        <?php $targetFileURL= $fileBaseURL."".$fileCollectionInfo->fileInfo->savedirname."/".$fileCollectionInfo->fileInfo->savefilename;
-
-
+                    <div class="text-wrap" style="word-wrap:break-word;">
+                        <?php
+                        $targetFileURL= $fileBaseURL."".$fileCollectionInfo->fileInfo->savedirname."/".$fileCollectionInfo->fileInfo->savefilename;
                         ?>
-                        <a class="" href="<?php echo $targetFileURL;  ?>"><?php echo $targetFileURL;  ?></a>
+                        <a  href="<?php echo $targetFileURL;  ?>"><?php echo $targetFileURL;  ?></a>
                     </div>
                 </div>
 
