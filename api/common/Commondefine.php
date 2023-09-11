@@ -30,9 +30,6 @@ const DOCS_DIR = MANAGER_DIR_NAME."/apidoc.php";
 
 const MANAGE_DISTRIBUTION_DIR = MANAGER_DIR_NAME."/index.php";
 
-const CREATE_DISTRIBUTION_DIR = MANAGER_DIR_NAME."/createdistribution.php";
-
-
 
 const FILE_SAVEDIR = USER_DIR_NAME."/".SAVEDATA_DIR_NAME."/publicfile/";
 const FILE_SAVEDIR_PATH = "../".FILE_SAVEDIR;
