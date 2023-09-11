@@ -61,7 +61,13 @@ $saveAppFilePath= $saveFileBaseFilePath .$saveFileName;
 
 
 if($saveAppFilePath!=="") {
-    copy($uploadtedFile['tmp_name'], $saveAppFilePath);
+    if(!move_uploaded_file($uploadtedFile['tmp_name'], $saveAppFilePath)){
+        //失敗時
+        exit();
+    }
+
+    chmod($saveAppFilePath, 0644);
+
 }else{
     exit();
 }
