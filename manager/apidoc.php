@@ -48,7 +48,38 @@ require_once('./commonheader.php');
 ?>
 <div  class="mx-auto"  style="width: 610px;">
 
-    <h1>API Documents</h1>
+    <div class="mt-5 row g-3">
+
+        <div class="mt-4 row g-2 border">
+            <h5>Server Info</h5>
+
+            <div class="col-12">
+                <label>MEMORY_LIMIT</label>
+                <div class="input-group">
+                    <?php echo ini_get("memory_limit"); ?>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <label>POST_MAX_SIZE</label>
+                <div class="input-group">
+                    <?php echo ini_get("post_max_size"); ?>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <label>UPLOAD_MAX_SIZE</label>
+                <div class="input-group">
+                    <?php echo ini_get("upload_max_filesize"); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <h1>API Documents</h1>
 
     <div class="mt-5 row g-3">
 
@@ -225,7 +256,7 @@ require_once('./commonheader.php');
             <div class="col-12">
                 <label>返却値</label>
                 <div class="input-group">
-                    JSON形式のURL文字列
+                    JSON形式の文字列
                 </div>
             </div>
 
